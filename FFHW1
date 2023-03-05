@@ -42,6 +42,7 @@ extensions = {
     'bat': ['bat'],
 
     'apk': ['apk']
+    
 }
 
 
@@ -105,19 +106,31 @@ def sort_files(folder_path):
                     os.remove(file_path)
 # распаковка 
 
-#def unpack_archive():
+#def unpack_archive(pth,):
     
-  
+    #shutil.unpack_archive(pth)
+    
+#def full_unpack(path):
+    #path = Path(f"{path}+/archive")
+    #point = Path(f"{path}+/archive")
+    #for  i in path.glob('**/*'):
+       # if  i.is_dir() == True:
+           # unpack_archive(i)
 
 # нормализация
+
+CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ ʼ'\"@"
+TRANSLATION = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
+               "f", "h", "ts", "ch", "sh", "sch", "", "y", "", "e", "yu", "ya", "je", "i", "ji", "g",
+               "_", "_", "_", "_", "_")
 
 def translate(name):
 
     
 
-    CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ"
-    TRANSLATION = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
-               "f", "h", "ts", "ch", "sh", "sch", "", "y", "", "e", "yu", "ya", "je", "i", "ji", "g")
+    #CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ"
+   # TRANSLATION = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
+              # "f", "h", "ts", "ch", "sh", "sch", "", "y", "", "e", "yu", "ya", "je", "i", "ji", "g")
 
     TRANS = {}
     for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION ):
@@ -126,19 +139,20 @@ def translate(name):
     imya = name.translate(TRANS)
     return imya
 
-def clean_name(imya):
-    nazva = re.sub(r"\W", "_", imya)
+#def clean_name(imya):
+    #nazva = re.sub(r"\W", "_", imya)
 
-    return nazva
+    #return nazva
 
 
 def normalize(file):
     if file.exists() == True:
         ch = f"{file}"
         ck = translate(ch)
-        cp = clean_name(ck)
-    os.rename(file, cp)
-
+        #cp = clean_name(ck)
+    
+        os.rename(file, f"{ck}")
+    
 
 
 def norm_list(path):
@@ -174,7 +188,7 @@ def folder_list(path):
 folder_list(path)
 remove_empty_folders(path)
 norm_list(main_path)
- 
+#full_unpack(main_path) 
 #sort_files(folder_list(path))
 #remove_empty_folders(path)
 
