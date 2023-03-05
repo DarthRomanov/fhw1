@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import shutil
+import re
 
 path = Path("D://test")
 
@@ -103,35 +104,12 @@ def sort_files(folder_path):
                 except FileExistsError:
                     os.remove(file_path)
 # распаковка 
-archive_pack = Path(f"{path}"+ "/archive")
-def unpack(archive_pack):
-    files = []
+
+#def unpack_archive():
     
-
-    for i in archive_pack.iterdir():
-    
-        if i.is_file() == True:
-            files.append(i.name)
-    
-
-
-    for i in files:
-        shutil.unpack_archive(i, "zip", archive_pack)
-
   
 
 # нормализация
-
-def normalize(path):
-
-    for i in path.iterdir():
-        s = f"{i}"
-        k = translate(s)
-        if k == None:
-            continue
-        #s = clean_name(s)
-        #os.rename(i, s) 
-        print(k)
 
 def translate(name):
 
@@ -145,11 +123,31 @@ def translate(name):
     for c, l in zip(CYRILLIC_SYMBOLS, TRANSLATION ):
         TRANS[ord(c)] = l
         TRANS[ord(c.upper())] = l.upper()
-    name.translate(TRANS)
+    imya = name.translate(TRANS)
+    return imya
 
-def clean_name(name):
-    import re
-    result = re.sub(r"(\W)|'.'", "_", name)
+def clean_name(imya):
+    nazva = re.sub(r"\W", "_", imya)
+
+    return nazva
+
+
+def normalize(file):
+    if file.exists() == True:
+        ch = f"{file}"
+        ck = translate(ch)
+        cp = clean_name(ck)
+    os.rename(file, cp)
+
+
+
+def norm_list(path):
+    for i in path.glob('**/*'):
+        normalize(i)
+
+
+
+
 
 
 # список всіх шляхів
@@ -175,7 +173,8 @@ def folder_list(path):
 #normalize(path)    
 folder_list(path)
 remove_empty_folders(path)
-unpack(archive_pack) 
+norm_list(main_path)
+ 
 #sort_files(folder_list(path))
 #remove_empty_folders(path)
 
